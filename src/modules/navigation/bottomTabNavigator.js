@@ -6,11 +6,10 @@ import {
   NavigationScreenConfig,
   NavigationScreenOptions
 } from 'react-navigation';
-import { Platform } from 'react-native';
 import AddPhotoIcon from '../../../assets/svg/addphoto.svg';
 import CocktailIcon from '../../../assets/svg/cocktail.svg';
 import theme from '../../config/theme';
-import { TAB_BAR_HEIGHT, TAB_ICON_SIZE } from '../styles/constants';
+import { TAB_ICON_SIZE } from '../styles/constants';
 import CocktailListPage from '../cocktail-list-page/cocktailListPage';
 import AddSuggestionPage from '../add-suggestion-page/addSuggestionPage';
 import CocktailDetailPage from '../cocktail-detail-page/cocktailDetailPage';
@@ -76,8 +75,6 @@ const getIcon = (props: IconProps, routeName: string) => {
   }
 };
 
-const ANDROID_PADDING = 16;
-
 const BottomTabNavigator = createBottomTabNavigator(
   {
     Cocktails: { screen: CockailsNavigator },
@@ -100,13 +97,6 @@ const BottomTabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: theme.colors.tabSelected,
       inactiveTintColor: theme.colors.tab,
-      style: {
-        height:
-          Platform.OS === 'android'
-            ? TAB_BAR_HEIGHT + ANDROID_PADDING
-            : TAB_BAR_HEIGHT,
-        paddingBottom: Platform.OS === 'android' ? ANDROID_PADDING : 0
-      },
       iconStyle: {
         height: TAB_ICON_SIZE,
         width: TAB_ICON_SIZE,

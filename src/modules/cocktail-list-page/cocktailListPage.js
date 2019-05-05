@@ -1,23 +1,106 @@
+/* eslint-disable no-console */
 import React from 'react';
-import { View } from 'react-native';
 import styled from 'styled-components';
-import { NavigationParams, NavigationScreenComponent } from 'react-navigation';
+import { View, ActivityIndicator, FlatList } from 'react-native';
+import { NavigationParams } from 'react-navigation';
+import SearchIcon from '../../../assets/svg/search.svg';
+import theme from '../../config/theme';
+import CocktailCard from './cocktailCard';
 
-const SuperView = styled.View`
-  flex: 1;
-  background-color: #3a3a;
+const CocktailListPageWrapper = styled.View`
+  background-color: #fafafa;
+  padding: 8px;
 `;
 
-interface CocktailListPageProps {}
+export default class CocktailListPage extends React.Component<NavigationParams> {
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return {
+      title: 'Cocktailr',
+      headerRight: (
+        <SearchIcon
+          style={{ marginRight: 12 }}
+          onPress={() => navigation.navigate('IngredientList', {
+            changeIngredient: params.changeIngredient
+          })
+          }
+          color={theme.colors.primaryText}
+        />
+      )
+    };
+  };
 
-const CocktailListPage: NavigationScreenComponent<
-  NavigationParams,
-  {},
-  CocktailListPageProps
-> = () => <SuperView />;
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true, ingredient: 'tequila' };
+  }
 
-CocktailListPage.navigationOptions = {
-  title: 'Cocktailr'
-};
+  componentDidMount() {
+    const { navigation } = this.props;
+    navigation.setParams({
+      changeIngredient: this.changeIngredient
+    });
+    this.fetchCocktails();
+  }
 
-export default CocktailListPage;
+  changeIngredient = (ingredient) => {
+    this.setState({
+      ingredient,
+      isLoading: true
+    });
+    this.fetchCocktails();
+  };
+
+  fetchCocktails = () => {
+    const { ingredient } = this.state;
+    return fetch(
+      `https://www.thecocktaildb.com/api/json/v1/36578/filter.php?i=${ingredient}`
+    )
+      .then(response => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson.drinks
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  navigateToDetails = (cocktail) => {
+    const { navigation } = this.props;
+    navigation.navigate('CocktailDetail', { cocktailName: cocktail.strDrink, cocktailId: cocktail.idDrink });
+  };
+
+  keyExtractor = item => item.idDrink;
+
+  render() {
+    const { isLoading, dataSource } = this.state;
+
+    if (isLoading) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
+    return (
+      <CocktailListPageWrapper>
+        <FlatList
+          data={dataSource}
+          keyExtractor={this.keyExtractor}
+          renderItem={({ item }) => (
+            <CocktailCard
+              id={item.idDrink}
+              image={item.strDrinkThumb}
+              name={item.strDrink}
+              onPress={() => this.navigateToDetails(item)}
+            />
+          )}
+        />
+      </CocktailListPageWrapper>
+    );
+  }
+}

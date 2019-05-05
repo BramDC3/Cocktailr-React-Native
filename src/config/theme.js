@@ -31,8 +31,8 @@ interface Colors {
 const theme: Theme = {
   colors: {
     tab: '#7F7F7F',
-    tabSelected: '#3A659B',
-    background: '#000',
+    tabSelected: '#FF0000',
+    background: '#FF0000',
     primaryText: '#FFF',
     infoText: '#8F8F91',
     primaryButton: '#E7B354',
