@@ -47,8 +47,7 @@ export default class CocktailListPage extends React.Component<NavigationParams> 
     this.setState({
       ingredient,
       isLoading: true
-    });
-    this.fetchCocktails();
+    }, this.fetchCocktails);
   };
 
   fetchCocktails = () => {
