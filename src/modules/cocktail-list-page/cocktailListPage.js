@@ -21,6 +21,7 @@ export default class CocktailListPage extends React.Component<NavigationParams> 
         <SearchIcon
           style={{ marginRight: 12 }}
           onPress={() => navigation.navigate('IngredientList', {
+            ingredients: params.ingredients,
             changeIngredient: params.changeIngredient
           })
           }
@@ -41,13 +42,17 @@ export default class CocktailListPage extends React.Component<NavigationParams> 
       changeIngredient: this.changeIngredient
     });
     this.fetchCocktails();
+    this.fetchIngredients();
   }
 
   changeIngredient = (ingredient) => {
-    this.setState({
-      ingredient,
-      isLoading: true
-    }, this.fetchCocktails);
+    this.setState(
+      {
+        ingredient,
+        isLoading: true
+      },
+      this.fetchCocktails
+    );
   };
 
   fetchCocktails = () => {
@@ -67,9 +72,28 @@ export default class CocktailListPage extends React.Component<NavigationParams> 
       });
   };
 
+  fetchIngredients = () => {
+    const { navigation } = this.props;
+    fetch(
+      'https://www.thecocktaildb.com/api/json/v1/36578/list.php?i=list'
+    )
+      .then(response => response.json())
+      .then((responseJson) => {
+        navigation.setParams({
+          ingredients: responseJson.drinks
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   navigateToDetails = (cocktail) => {
     const { navigation } = this.props;
-    navigation.navigate('CocktailDetail', { cocktailName: cocktail.strDrink, cocktailId: cocktail.idDrink });
+    navigation.navigate('CocktailDetail', {
+      cocktailName: cocktail.strDrink,
+      cocktailId: cocktail.idDrink
+    });
   };
 
   keyExtractor = item => item.idDrink;

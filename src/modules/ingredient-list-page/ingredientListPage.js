@@ -28,20 +28,14 @@ export default class IngredientListPage extends React.Component<NavigationParams
   }
 
   componentDidMount() {
-    return fetch(
-      'https://www.thecocktaildb.com/api/json/v1/36578/list.php?i=list'
-    )
-      .then(response => response.json())
-      .then((responseJson) => {
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson.drinks,
-          filteredData: responseJson.drinks
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const { navigation } = this.props;
+    const { params } = navigation.state;
+
+    this.setState({
+      dataSource: params.ingredients,
+      filteredData: params.ingredients,
+      isLoading: false
+    });
   }
 
   keyExtractor = item => item.strIngredient1;
