@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: host.exp.exponent:expo-font:2.0.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/expo-font-2.0.0.aar/277643eea21dbb3016e970022622d39b/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/expo-font-2.0.0.aar/277643eea21dbb3016e970022622d39b/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/70b731a6ade0b07e89e1664c92328efc/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/70b731a6ade0b07e89e1664c92328efc/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
