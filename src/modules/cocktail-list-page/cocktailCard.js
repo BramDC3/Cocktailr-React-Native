@@ -26,7 +26,7 @@ const CocktailName = styled.Text`
 `;
 
 const CocktailId = styled.Text`
-  color: #9D9D9D;
+  color: #9d9d9d;
   font-size: 13px;
 `;
 
@@ -42,16 +42,24 @@ const styles = StyleSheet.create({
   }
 });
 
-const CocktailCard = ({
-  id, image, name, onPress,
-}) => (
-  <CocktailCardWrapper elevation={5} style={styles.cardWrapper} onPress={onPress}>
-    <CocktailImage source={{ uri: image }} />
-    <CocktailText>
-      <CocktailName>{name}</CocktailName>
-      <CocktailId>{`ID: ${id}`}</CocktailId>
-    </CocktailText>
-  </CocktailCardWrapper>
-);
+export default class CocktailCard extends React.PureComponent {
+  render() {
+    const {
+      id, image, name, onPress
+    } = this.props;
 
-export default CocktailCard;
+    return (
+      <CocktailCardWrapper
+        elevation={5}
+        style={styles.cardWrapper}
+        onPress={onPress}
+      >
+        <CocktailImage source={{ uri: image }} />
+        <CocktailText>
+          <CocktailName>{name}</CocktailName>
+          <CocktailId>{`ID: ${id}`}</CocktailId>
+        </CocktailText>
+      </CocktailCardWrapper>
+    );
+  }
+}
